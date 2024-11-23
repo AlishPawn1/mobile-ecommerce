@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2024 at 10:44 AM
+-- Generation Time: Nov 23, 2024 at 04:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,6 +74,7 @@ INSERT INTO `tbl_brand` (`brandId`, `brandName`) VALUES
 
 CREATE TABLE `tbl_cart` (
   `cartId` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `sId` varchar(255) NOT NULL,
   `productId` int(11) NOT NULL,
   `productName` varchar(255) NOT NULL,
@@ -81,14 +82,6 @@ CREATE TABLE `tbl_cart` (
   `quantity` int(11) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tbl_cart`
---
-
-INSERT INTO `tbl_cart` (`cartId`, `sId`, `productId`, `productName`, `price`, `quantity`, `image`) VALUES
-(3, 'cu1qe45qmgtrvmqct5d594pmpj', 18, 'iPhone 8 Plus', 109999.00, 1, 'uploads/33ce6b99f4.jpg'),
-(10, 'i6t4larsmjdo40lkbqou0c6nar', 25, 'Iphone16 Pro Max', 232000.00, 1, 'uploads/200d429ada.jpg');
 
 -- --------------------------------------------------------
 
@@ -161,18 +154,10 @@ CREATE TABLE `tbl_customer` (
   `zip` varchar(30) NOT NULL,
   `phone` varchar(30) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `pass` varchar(32) NOT NULL
+  `pass` varchar(32) NOT NULL,
+  `is_verified` tinyint(1) DEFAULT 0,
+  `verification_code` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tbl_customer`
---
-
-INSERT INTO `tbl_customer` (`id`, `name`, `address`, `city`, `country`, `zip`, `phone`, `email`, `pass`) VALUES
-(1, 'bappy', 'khilgaon, Dhaka', 'Dhaka', 'Bangladesh', '1219', '01622425286', 'customer@gmail.com', '202cb962ac59075b964b07152d234b70'),
-(2, 'Sohita Tamang', 'Suryabinyak,Bhaktapur', 'Bhaktapur', 'Nepal', '44800', '9803969987', 'tamangsweta01@gmail.com', 'c246d28721a565a4c8560a56a56c96bf'),
-(3, 'Anup Shrestha', 'Bhaktapur', '5566', 'Nepal', 'ghgh', '9803969987', 'anupshrestha@gmail.com', '25f9e794323b453885f5181f1b624d0b'),
-(4, 'Bikesh', 'Banepa', 'Banepa', 'Nepal', '42001', '9861546322', 'bikeshmanandhar201@gmail.com', '701ba6ea52187870a39d1903e91aff9d');
 
 -- --------------------------------------------------------
 
@@ -191,14 +176,6 @@ CREATE TABLE `tbl_order` (
   `date` datetime NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tbl_order`
---
-
-INSERT INTO `tbl_order` (`id`, `cmrId`, `productId`, `productName`, `quantity`, `price`, `image`, `date`, `status`) VALUES
-(37, 2, 25, 'Iphone16 Pro Max', 2, 464000.00, 'uploads/200d429ada.jpg', '2024-11-20 20:29:25', 2),
-(38, 2, 24, 'Iphone 15 Pro Max', 1, 200000.00, 'uploads/2a54e332ce.jpg', '2024-11-20 20:29:25', 2);
 
 -- --------------------------------------------------------
 
@@ -248,13 +225,6 @@ CREATE TABLE `tbl_wlist` (
   `price` float(10,2) NOT NULL,
   `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tbl_wlist`
---
-
-INSERT INTO `tbl_wlist` (`id`, `cmrId`, `productId`, `productName`, `price`, `image`) VALUES
-(6, 1, 15, 'Laundry machine ', 3200.00, 'uploads/d712a37947.png');
 
 --
 -- Indexes for dumped tables
@@ -334,7 +304,7 @@ ALTER TABLE `tbl_brand`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cartId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cartId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_category`
@@ -352,13 +322,13 @@ ALTER TABLE `tbl_contact`
 -- AUTO_INCREMENT for table `tbl_customer`
 --
 ALTER TABLE `tbl_customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_product`
@@ -370,7 +340,7 @@ ALTER TABLE `tbl_product`
 -- AUTO_INCREMENT for table `tbl_wlist`
 --
 ALTER TABLE `tbl_wlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
